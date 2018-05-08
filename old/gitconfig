@@ -1,0 +1,94 @@
+[user]
+name = {{user.name}}
+email = {{user.email}}
+
+[core]
+autocrlf = false
+safecrlf = true
+eol = lf
+
+[branch]
+autosetuprebase = always
+
+[difftool "kdiff3"]
+path = /usr/bin/kdiff3
+trustExitCode = false
+[difftool]
+prompt = false
+[diff]
+tool = kdiff3
+[mergetool "kdiff3"]
+path = /usr/bin/kdiff3
+trustExitCode = false
+[mergetool]
+keepBackup = false
+[merge]
+tool = kdiff3
+[alias]
+
+aa = add -A
+
+co = checkout
+ci = commit
+st = status
+
+br = branch
+
+ri = rebase -i
+
+undo = reset --hard HEAD@{1} 
+
+type = cat-file -t
+dump = cat-file -p
+
+ss = stash save
+sl = stash list
+sp = stash pop
+
+ca = commit --amend
+pr = pull --rebase
+gpush = "!f() { git push origin HEAD:refs/for/$1; }; f"
+gp = "!f() { git push origin HEAD:refs/for/master; }; f" 
+cl = clean -f
+w = whatchanged
+l = log --pretty=oneline --graph --abbrev-commit
+ll = log --pretty=format:'%C(yellow)%h%Creset %s - %Cred%an%Creset %Creset %C(blue)%d%Creset %Cgreen(%cr)%Creset'  --graph --abbrev-commit --date=relative
+
+unstage = reset HEAD
+cleanup = reset --hard HEAD
+
+
+assume = update-index --assume-unchanged
+unassume = update-index --no-assume-unchanged
+assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+
+d = diff
+dc = diff --cached
+
+# Show my commints since yesterday
+wl = log --since="yesterday" --author="{{user.name}}" --format=oneline --abbrev-commit
+mc = log --pretty=oneline --graph --abbrev-commit --author="{{user.name}}" --format=oneline --abbrev-commit
+
+ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --graph
+ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+
+files = "!f() { git diff-tree --no-commit-id --name-only -r $1; }; f"
+
+where = branch -r --contains
+
+bra = for-each-ref --format='%(refname:short) <- %(upstream:short)' refs/heads
+
+[color]
+interactive = auto
+status = auto
+branch = auto
+diff = auto
+ui = auto
+[push]
+default = simple
+[filter "lfs"]
+clean = git-lfs clean -- %f
+smudge = git-lfs smudge -- %f
+required = true
